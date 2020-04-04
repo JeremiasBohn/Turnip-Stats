@@ -1,0 +1,9 @@
+ <Files ~ "\.Rmd">
+Order allow,deny
+Deny from all
+</Files>
+
+ <Files ~ "\form_handler.php">
+Order allow,deny
+Deny from all
+</Files>
