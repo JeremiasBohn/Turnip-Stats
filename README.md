@@ -18,11 +18,11 @@ This project is a basic approach to visualise data from turnip prices for multip
 
 1. Create a new table in your database as following:
 
-| ID | User | Price | Date | Time |
-| --- | --- | --- | --- | --- |
-| INT | TEXT | INT | DATE | BOOLEAN |
+  | ID | User | Price | Date | Time |
+  | --- | --- | --- | --- | --- |
+  | INT | TEXT | INT | DATE | BOOLEAN |
 
-Make ID your primary key.
+  Make ID your primary key.
 
 2. Put your database info into the `form_handler.php`
 
