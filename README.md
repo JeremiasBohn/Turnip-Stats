@@ -36,3 +36,7 @@ This project is a basic approach to visualise data from turnip prices for multip
    - Save file
 
 6. Make `knit.sh` immutable by calling `chattr +i knit.sh`
+
+## Special Thanks
+
+Thanks to adam2326 from CodePen (https://codepen.io/adam2326) for Fancy Forms which was adapted for this project
