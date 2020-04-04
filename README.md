@@ -24,7 +24,7 @@ This project is a basic approach to visualise data from turnip prices for multip
 
   Make ID your primary key.
 
-2. Put your database info into the `form_handler.php`
+2. Put your database info into the `form_handler.php` and `TurnipStats.Rmd` files
 
 3. Set up account credentials in the `form_handler.php`
 
