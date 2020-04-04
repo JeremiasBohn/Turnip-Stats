@@ -1,0 +1,38 @@
+---
+title: "Turnip Stats"
+author: "Jeremias Bohn"
+date: "31st March 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(RMySQL)
+mydb = dbConnect(MySQL(), user="user", password="password", dbname="dbName", host="127.0.0.1")
+rs = dbSendQuery(mydb, "SELECT * FROM TurnipStats")
+data = fetch(rs, n=-1)
+data$User <- factor(data$User)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(tidyr)
+
+#data <- data.frame(User, Price, Date, Time, stringsAsFactors = F)
+data$Time <- as.character(data$Time)
+data$Time[data$Time=="0"] <- "AM"
+data$Time[data$Time=="1"] <- "PM"
+ggplot(data,aes(Date, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User))+facet_grid(.~Time) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data$User))
+
+data2 <- unite(data, "Time", Date, Time, sep=" ",)
+ggplot(data2,aes(Time, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User)) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data2$User))
+ggplot(data2,aes(Time, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User))+facet_grid(.~User) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data2$User))
+
+
+```
+
+

@@ -1,0 +1,51 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="main.css">
+<title>Stalk Market: Turnip Statistics</title>
+</head>
+<body>
+<div class="middle">
+<form id="turnip_form" method="post" action="form_handler.php">
+  <h1>Enter Your Data</h1>
+  <div id="form-messages"></div>
+  <div id="fancy-inputs">
+    <label for="user" class="input">
+      <input type="text" name="user" id="user">
+      <span><span>Username</span></span>
+    </label>
+	
+    <label class="input" for="password">
+      <input type="password" name="password" id="password" >
+      <span><span>Password</span></span>
+    </label>
+	
+    <label class="input" for="price">
+      <input type="text" name="price" id="price">
+      <span><span>Price</span></span>
+    </label>
+	
+    <label class="input">
+      <input type="date" name="date" id="date" >
+      <span><span></span></span>
+    </label>
+  </div>
+  
+  <div id="fancy-radio">
+    <input type="radio" name="time" id="questions" class="pull-left" style="display: none;" value="AM">
+    <label class="radio questions" for="questions">AM</label>
+
+    <input type="radio" name="time" id="photo" class="pull-left" style="display: none;" value="PM">
+    <label class="radio photo" for="photo">PM</label>
+  </div>
+  <div id="button_field">
+  <a href="#" class="btn submit">Submit</a>
+  </div>
+  <div id="loading"></div>
+</form>
+<a href="TurnipStats.html" class="btn submit">Results</a>
+</div>
+</body>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="form.js"></script>
+<script src="basics.js"></script>
+</html>
