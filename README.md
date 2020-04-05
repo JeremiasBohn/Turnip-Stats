@@ -30,12 +30,14 @@ This project is a basic approach to visualise data from turnip prices for multip
 
 4. Add the correct absolute path to `knit.sh` in `form_handler.php`
 
-5. Add an exception for the `knit.sh` so it can be called with `sudo` by the `www-data` user without a password:
+5. Add the correct path to your `jquery.min.js` in `index.html`
+
+6. Add an exception for the `knit.sh` so it can be called with `sudo` by the `www-data` user without a password:
    - Call `visudo` from the command line
    - At the bottom, add `www-data ALL=NOPASSWD: /full/path/to/directory/knit.sh`
    - Save file
 
-6. Make `knit.sh` immutable by calling `chattr +i knit.sh`
+7. Make `knit.sh` immutable by calling `chattr +i knit.sh`
 
 ## Special Thanks
 
