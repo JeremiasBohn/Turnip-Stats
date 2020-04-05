@@ -16,7 +16,7 @@ This project is a basic approach to visualise data from turnip prices for multip
 
 ## Setup
 
-1. Create a new table in your database as following:
+1. Create a new table called `TurnipStats` in your database as following:
 
   | ID | User | Price | Date | Time |
   | --- | --- | --- | --- | --- |
