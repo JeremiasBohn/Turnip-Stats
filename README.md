@@ -11,6 +11,7 @@ This project is a basic approach to visualise data from turnip prices for multip
   - RMarkdown
   - tidyr
   - ggplot2
+  - knitr
 * Javascript
   - JQuery
 
