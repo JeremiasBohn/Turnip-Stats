@@ -35,7 +35,8 @@ data3$Date <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
     "Friday", "Saturday")[as.POSIXlt(data3$Date)$wday + 1]
 data3$Date <- factor(data3$Date, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", 
     "Friday", "Saturday", "Sunday"))
-expanding <- expand.grid(Date =unique(data3$Date), User= unique(data3$User), Time=unique(data3$Time))
+expanding <- expand.grid(Date =factor(c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"), levels=c("Monday", "Tuesday", "Wednesday", "Thursday", 
+    "Friday", "Saturday")), User= unique(data$User), Time=c("AM","PM"))
 data3 <- merge(data3, expanding, all=T)
 ```
 # {.tabset .tabset-pills}
@@ -78,7 +79,7 @@ ggplot(data2,aes(Time, Price, group=User)) + geom_point(aes(shape=User))+geom_li
 ## In-Depth Price Analysis by User
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10}
-ggplot(data, aes(User, Price)) + geom_boxplot(fill='#A4A4A4', color="black")
+ggplot(data, aes(User, Price)) + geom_boxplot(aes(fill=User), color="black")+guides(fill="none")
 ```
 
 ### Explanation 
