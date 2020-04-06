@@ -51,7 +51,7 @@ date_to_print <- paste0(c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"
 ###Day of Plotting: `r date_to_print`
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=8}
-ggplot(data3,aes(Date, Price, group=interaction(Time,User))) + geom_bar(position="dodge2", stat="identity", aes(colour=Time, fill=User))+ scale_colour_manual(values=c("#ffbc05","#0f0091")) + theme(legend.position="bottom")
+ggplot(data3,aes(Date, Price, group=interaction(Time,User))) + geom_bar(position="dodge2", stat="identity", aes(colour=Time, fill=User))+ scale_colour_manual(values=c("#ffbc05","#0f0091")) + theme(legend.position="bottom") + coord_cartesian(ylim=c(min(data3[,"Price"], na.rm=T)-10,max(data3[,"Price"])+10))
 ```
 
 
