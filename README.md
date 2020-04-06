@@ -40,6 +40,24 @@ This project is a basic approach to visualise data from turnip prices for multip
 
 7. Make `knit.sh` immutable by calling `chattr +i knit.sh`
 
+## Screenshots
+![Image of Index](screenshots/index.png)
+
+
+![Image of Prices of the Week](screenshots/prices_of_the_week.png)
+
+
+![Image of Prices over Time](screenshots/prices_over_time.png)
+
+
+![Image of Prices by Time of Day](screenshots/prices_by_time_of_day.png)
+
+
+![Image of Prices by User](screenshots/prices_by_user.png)
+
+
+![Image of In-Depth Price Analysis by User](screenshots/in-depth_price_analysis.png)
+
 ## Special Thanks
 
 Thanks to adam2326 from CodePen (https://codepen.io/adam2326) for Fancy Forms which was adapted for this project
