@@ -58,6 +58,8 @@ This project is a basic approach to visualise data from turnip prices for multip
 
 ![Image of In-Depth Price Analysis by User](screenshots/in-depth_price_analysis.png)
 
+![Image of In-Depth Price Analysis by Weekday](screenshots/prices_by_weekday.png)
+
 ## Special Thanks
 
 Thanks to adam2326 from CodePen (https://codepen.io/adam2326) for Fancy Forms which was adapted for this project
