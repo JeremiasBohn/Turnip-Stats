@@ -17,11 +17,22 @@ This project is a basic approach to visualise data from turnip prices for multip
 
 ## Setup
 
-1. Create a new table called `TurnipStats` in your database as following:
+1. 
 
-  | ID | User | Price | Date | Time |
-  | --- | --- | --- | --- | --- |
-  | INT | TEXT | INT | DATE | BOOLEAN |
+   (a) Create a new table called `SaleStats` in your database as following:
+
+   | ID | User | Price | Date | Time |
+   | --- | --- | --- | --- | --- |
+   | INT | TEXT | INT | DATE | BOOLEAN |
+
+    Make ID your primary key.
+
+
+   (b) Create a new table called `PurchaseStats` in your database as following:
+
+   | ID | User | Price | Week |
+   | --- | --- | --- | --- |
+   | INT | TEXT | INT | INT |
 
   Make ID your primary key.
 
