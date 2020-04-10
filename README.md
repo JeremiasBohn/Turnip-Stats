@@ -19,22 +19,22 @@ This project is a basic approach to visualise data from turnip prices for multip
 
 1. 
 
-   (a) Create a new table called `SaleStats` in your database as following:
+   - Create a new table called `SaleStats` in your database as following:
 
-   | ID | User | Price | Date | Time |
-   | --- | --- | --- | --- | --- |
-   | INT | TEXT | INT | DATE | BOOLEAN |
+     | ID | User | Price | Date | Time |
+     | --- | --- | --- | --- | --- |
+     | INT | TEXT | INT | DATE | BOOLEAN |
 
-   Make ID your primary key.
+      Make ID your primary key.
 
 
-   (b) Create a new table called `PurchaseStats` in your database as following:
+   - Create a new table called `PurchaseStats` in your database as following:
 
-   | ID | User | Price | Week |
-   | --- | --- | --- | --- |
-   | INT | TEXT | INT | INT |
+     | ID | User | Price | Week |
+     | --- | --- | --- | --- |
+     | INT | TEXT | INT | INT |
 
-  Make ID your primary key.
+      Make ID your primary key.
 
 2. Put your database info into the `form_handler.php` and `TurnipStats.Rmd` files
 
