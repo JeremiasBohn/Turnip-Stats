@@ -1,5 +1,18 @@
 // Inputs
 
+$(window).on( "load", function() {
+	$('#purchase').hide();
+});
+
+$('.change-to-purchase').click(function() {
+	$('#sale').hide();
+	$('#purchase').show();
+});
+$('.change-to-sale').click(function() {
+	$('#sale').show();
+	$('#purchase').hide();
+});
+
 $('#fancy-inputs input[type="text"]').blur(function(){
   if($(this).val().length > 0){
     $(this).addClass('white');
@@ -9,6 +22,14 @@ $('#fancy-inputs input[type="text"]').blur(function(){
 });
 
 $('#fancy-inputs input[type="password"]').blur(function(){
+  if($(this).val().length > 0){
+    $(this).addClass('white');
+  } else {
+    $(this).removeClass('white');
+  }
+});
+
+$('#fancy-inputs input[type="number"]').blur(function(){
   if($(this).val().length > 0){
     $(this).addClass('white');
   } else {
@@ -36,6 +57,7 @@ var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
 var today = now.getFullYear()+"-"+(month)+"-"+(day);
 $('#date').val(today);
+$('#date_purchase').val(today);
 
 if (now.getHours() >= 5 && now.getHours() < 12) {
 	$('#questions').prop("checked", true);

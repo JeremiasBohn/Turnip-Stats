@@ -11,9 +11,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(RMySQL)
 mydb = dbConnect(MySQL(), user="user", password="password", dbname="dbName", host="127.0.0.1")
-rs = dbSendQuery(mydb, "SELECT * FROM TurnipStats")
+rs = dbSendQuery(mydb, "SELECT * FROM SaleStats")
 data = fetch(rs, n=-1)
 data$User <- factor(data$User)
+rs = dbSendQuery(mydb, "SELECT * FROM PurchaseStats")
+purchase_data = fetch(rs, n=-1) 
+purchase_data$User <- factor(purchase_data$User, levels=levels(data$User))
+
 library(ggplot2)
 library(tidyr)
 
@@ -35,9 +39,7 @@ data4 <- data.frame(data3)
 data4$Time <- c("Overall")
 data4 <- rbind(data3, data4)
 data4$Time <- factor(data4$Time, levels=c("AM", "PM", "Overall"))
-data4$Date <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")[as.POSIXlt(data4$Date)$wday + 1]
-data4$Date <- factor(data4$Date, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))	
-	
+
 data3 <- data3[data3$Date>= (today-offset_day),]
 data3$Date <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", 
     "Friday", "Saturday")[as.POSIXlt(data3$Date)$wday + 1]
@@ -46,6 +48,9 @@ data3$Date <- factor(data3$Date, levels=c("Monday", "Tuesday", "Wednesday", "Thu
 expanding <- expand.grid(Date =factor(c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"), levels=c("Monday", "Tuesday", "Wednesday", "Thursday", 
     "Friday", "Saturday")), User= unique(data$User), Time=c("AM","PM"))
 data3 <- merge(data3, expanding, all=T)
+
+data4$Date <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")[as.POSIXlt(data4$Date)$wday + 1]
+data4$Date <- factor(data4$Date, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
 ```
 # {.tabset .tabset-pills}
 
@@ -59,23 +64,25 @@ date_to_print <- paste0(c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"
 ###Day of Plotting: `r date_to_print`
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=8}
-ggplot(data3,aes(Date, Price, group=interaction(Time,User))) + geom_bar(position="dodge2", stat="identity", aes(colour=Time, fill=User))+ scale_colour_manual(values=c("#ffbc05","#0f0091")) + theme(legend.position="bottom") + coord_cartesian(ylim=c(min(data3[,"Price"], na.rm=T)-10,max(data3[,"Price"])+10))
+ggplot(data3,aes(Date, Price, group=interaction(Time,User))) + geom_bar(position="dodge2", stat="identity", aes(colour=Time, fill=User)) + coord_cartesian(ylim=c(min(data3[,"Price"], na.rm=T)-10,max(data3[,"Price"])+10)) + scale_colour_manual(values=c("#ffbc05","#0f0091")) + theme(legend.position="bottom") 
 ```
 
 
 ## Prices over Time
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10}
-ggplot(data2,aes(Time, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User)) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data2$User))
+ggplot(data2,aes(Time, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User)) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data2$User)) + stat_summary(geom = "point", fun = "mean", col = "red", size = 2, fill = "red", mapping=aes(group=Time)) + stat_summary(aes(group=1), geom = "line", fun = "mean", col = "red", size = 2)
 ```
 
+#### The strong red line displays the mean value.
 
 ## Prices by Time of Day
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10}
-ggplot(data,aes(Date, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User))+facet_grid(.~Time) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data$User))
+ggplot(data,aes(Date, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User))+facet_grid(.~Time) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data$User)) + stat_summary(geom = "point", fun = "mean", col = "red", size = 2, fill = "red", mapping=aes(group=Date)) + stat_summary(aes(group=1), geom = "line", fun = "mean", col = "red", size = 2)
 ```
 
+#### The strong red line displays the mean value.
 
 ## Prices by User
 
@@ -100,11 +107,11 @@ library(knitr)
 include_graphics("box-plot.png")
 ```
 
-The 1^st^ and 3^rd^ Quantiles are the values in your data points that are larger than 25% or 75% of all data points, respectively. The interval size of these two data points is called the Interquartile Range.
+The 1^st^ and 3^rd^ Quartiles are the values in your data points that are larger than 25% or 75% of all data points, respectively. The interval's size between these two data points is called the Interquartile Range.
 
-"Outlier" refers to points that are further away from either the 1^st^ and 3^rd^ Quantile than 1.5 Interquartile Ranges. These are considered as irregular compared to the given distribution of values.
+"Outlier" refers to points that are further away from either the 1^st^ and 3^rd^ Quartile than 1.5 Interquartile Ranges. These are considered as irregular compared to the given distribution of values.
 
-Maximum and Minimum are the extreme values that are not inside the 1^st^ and 3^rd^ Quantile and which are not considered outliers.
+Maximum and Minimum are the two most extreme values that are not in between the 1^st^ and 3^rd^ Quartile and which are not considered outliers.
 
 ## In-Depth Price Analysis by Weekday
 
@@ -122,8 +129,30 @@ library(knitr)
 include_graphics("box-plot.png")
 ```
 
-The 1^st^ and 3^rd^ Quantiles are the values in your data points that are larger than 25% or 75% of all data points, respectively. The interval's size between these two data points is called the Interquartile Range.
+The 1^st^ and 3^rd^ Quartiles are the values in your data points that are larger than 25% or 75% of all data points, respectively. The interval's size between these two data points is called the Interquartile Range.
 
-"Outlier" refers to points that are further away from either the 1^st^ and 3^rd^ Quantile than 1.5 Interquartile Ranges. These are considered as irregular compared to the given distribution of values.
+"Outlier" refers to points that are further away from either the 1^st^ and 3^rd^ Quartile than 1.5 Interquartile Ranges. These are considered as irregular compared to the given distribution of values.
 
-Maximum and Minimum are the two most extreme values that are not in between the 1^st^ and 3^rd^ Quantile and which are not considered outliers.
+Maximum and Minimum are the two most extreme values that are not in between the 1^st^ and 3^rd^ Quartile and which are not considered outliers.
+
+## Purchase Price over Time
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10}
+ggplot(purchase_data, aes(factor(Week), Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User)) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(purchase_data$User)) + labs(x="Week")
+```
+
+## Highest Possible Profit by Week
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10}
+max_price <- data.frame(data)
+max_price$Date <- strftime(max_price$Date, format="%V")
+max_price <- aggregate(Price ~ Date, data=max_price, max)
+
+min_price <- aggregate(Price ~ Week, data=purchase_data, min)
+min_price$Week <- min_price$Week+1
+profit <- merge(min_price, max_price, by.x = "Week", by.y="Date")
+profit$Price <- profit$Price.y - profit$Price.x
+profit$Week <- factor(profit$Week)
+
+ggplot(profit, aes(Week, Price)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(y="Profit per Turnip")
+```

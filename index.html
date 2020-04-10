@@ -5,47 +5,83 @@
 </head>
 <body>
 <div class="middle">
-<form id="turnip_form" method="post" action="form_handler.php">
-  <h1>Enter Your Data</h1>
-  <div id="form-messages"></div>
-  <div id="fancy-inputs">
-    <label for="user" class="input">
-      <input type="text" name="user" id="user">
-      <span><span>Username</span></span>
-    </label>
-	
-    <label class="input" for="password">
-      <input type="password" name="password" id="password" >
-      <span><span>Password</span></span>
-    </label>
-	
-    <label class="input" for="price">
-      <input type="text" name="price" id="price">
-      <span><span>Price</span></span>
-    </label>
-	
-    <label class="input">
-      <input type="date" name="date" id="date" >
-      <span><span></span></span>
-    </label>
-  </div>
-  
-  <div id="fancy-radio">
-    <input type="radio" name="time" id="questions" class="pull-left" style="display: none;" value="AM">
-    <label class="radio questions" for="questions">AM</label>
+	<div id="sale">
+		<form id="turnip_form" method="post" action="form_handler.php">
+			<input type="hidden" id="type" name="type" value="sale">
+			<div id="form-messages"></div>
+			<h1>Turnip Sale Prices</h1>
+			<a href="#" class="btn change-to-purchase">Change to Purchase Prices</a>
+			<div id="fancy-inputs">
+				<label for="user" class="input">
+					<input type="text" name="user" id="user">
+					<span><span>Username</span></span>
+				</label>
 
-    <input type="radio" name="time" id="photo" class="pull-left" style="display: none;" value="PM">
-    <label class="radio photo" for="photo">PM</label>
-  </div>
-  <div id="button_field">
-  <a href="#" class="btn submit">Submit</a>
-  </div>
-  <div id="loading"></div>
-</form>
-<a href="TurnipStats.html" class="btn submit">Results</a>
+				<label class="input" for="password">
+					<input type="password" name="password" id="password" >
+					<span><span>Password</span></span>
+				</label>
+		
+				<label class="input" for="price">
+					<input type="number" name="price" id="price">
+					<span><span>Price</span></span>
+				</label>
+		
+				<label class="input">
+					<input type="date" name="date" id="date" >
+					<span><span></span></span>
+				</label>
+			</div>
+	
+			<div id="fancy-radio">
+				<input type="radio" name="time" id="questions" class="pull-left" style="display: none;" value="AM">
+				<label class="radio questions" for="questions">AM</label>
+
+				<input type="radio" name="time" id="photo" class="pull-left" style="display: none;" value="PM">
+				<label class="radio photo" for="photo">PM</label>
+			</div>
+			<div class="button_field">
+				<a href="#" class="btn submit">Submit</a>
+			</div>
+			<div class="loading"></div>
+		</form>
+	</div>
+	<div id="purchase">
+		<form id="turnip_form_purchase" method="post" action="form_handler.php">
+			<input type="hidden" id="type_purchase" name="type" value="purchase">
+			<div id="form-messages-purchase"></div>
+			<h1>Turnip Purchase Prices</h1>
+			<a href="#" class="btn change-to-sale">Change to Sale Prices</a>
+			<div id="fancy-inputs">
+				<label for="user" class="input">
+					<input type="text" name="user" id="user_purchase">
+					<span><span>Username</span></span>
+				</label>
+
+				<label class="input" for="password">
+					<input type="password" name="password" id="password_purchase" >
+					<span><span>Password</span></span>
+				</label>
+		
+				<label class="input" for="price">
+					<input type="number" name="price" id="price_purchase">
+					<span><span>Price</span></span>
+				</label>
+		
+				<label class="input">
+					<input type="date" name="date" id="date_purchase" >
+					<span><span></span></span>
+				</label>
+			</div>
+			<div class="button_field">
+				<a href="#" class="btn submit">Submit</a>
+			</div>
+			<div class="loading"></div>
+		</form>
+	</div>
+	<a href="TurnipStats.html" class="btn">Results</a>
 </div>
 </body>
-<!--Add path to JQuery here-->
 <script src="path/to/jquery.min.js"></script>
 <script src="form.js"></script>
 <script src="basics.js"></script>

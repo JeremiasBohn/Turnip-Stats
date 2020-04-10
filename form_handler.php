@@ -25,16 +25,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = trim($_POST["password"]);
         $price = trim($_POST["price"]);
 		$date = $_POST["date"];
-		if(isset($_POST['time'])){
-			if($_POST['time']=="PM") {
-			$time = 1;
-			} else {
-				$time=0;
+		$type = $_POST["type"];
+		
+		$date_converted = strtotime($date);
+		
+		if($type=="sale") {
+			if(isset($_POST['time'])){
+				if($_POST['time']=="PM") {
+					$time = 1;
+				} 
+				else {
+					$time=0;
+				}
+			}
+			else {
+				http_response_code(400);
+				echo "Missing Data. Please fill out the form again.";
+				exit;
+			}
+			
+			if (date("w", $date_converted)==0) {
+				http_response_code(400);
+				echo "There is no sale price for Sundays. Use the purchase price form instead.";
+				exit;
 			}
 		}
-		else{
-			$time=0;
+		else if ($type=="purchase") {
+			if (date("w", $date_converted)!=0) {
+				http_response_code(400);
+				echo "There are only purchase prices for Sundays. Use the sale price form instead.";
+				exit;
+			}
 		}
+		else {
+			http_response_code(400);
+			echo "Some unintended error occured! Inform the administator!";
+			exit;
+		}
+		
+		
         if ( empty($user) OR empty($password) OR empty($price) OR empty($date)) {
             http_response_code(400);
             echo "Missing Data. Please fill out the form again.";
@@ -57,10 +86,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$conn = new mysqli($servername, $username, $pw, $dbname);
 		if ($conn->connect_error) {
 			http_response_code(400);
-			echo "Connection failed: " . $conn->connect_error;		
+			echo "Connection failed: " . $conn->connect_error;	
+			exit;			
 		}
-		$sql = "INSERT INTO TurnipStats (User, Price, Date, Time)
-		VALUES ('" . $user . "', '" . $price . "', '" . $date . "' , '" . $time . "')";
+		if($type=="sale") {
+			$sql = "INSERT INTO SaleStats (User, Price, Date, Time) VALUES ('" . $user . "', '" . $price . "', '" . $date . "' , '" . $time . "')";
+		}
+		else if ($type=="purchase") {
+			$sql = "INSERT INTO PurchaseStats (User, Price, Week) VALUES ('" . $user . "', '" . $price . "', '" . date("W", $date_converted) . "')";
+		}
+		else {
+			http_response_code(400);
+			echo "Some unintended error occured! Inform the administator!";
+			exit;
+		}
 		
 		if ($conn->query($sql) === TRUE) {
 			exec("sudo ". $pathtosh);
