@@ -25,7 +25,7 @@ This project is a basic approach to visualise data from turnip prices for multip
    | --- | --- | --- | --- | --- |
    | INT | TEXT | INT | DATE | BOOLEAN |
 
-    Make ID your primary key.
+   Make ID your primary key.
 
 
    (b) Create a new table called `PurchaseStats` in your database as following:
