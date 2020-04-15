@@ -52,7 +52,10 @@ This project is a basic approach to visualise data from turnip prices for multip
 7. Make `knit.sh` immutable by calling `chattr +i knit.sh`
 
 ## Screenshots
-![Image of Index](screenshots/index.png)
+![Image of Index (Purchase)](screenshots/index_purchase.png)
+
+
+![Image of Index (Sale)](screenshots/index_sale.png)
 
 
 ![Image of Prices of the Week](screenshots/prices_of_the_week.png)
@@ -69,7 +72,14 @@ This project is a basic approach to visualise data from turnip prices for multip
 
 ![Image of In-Depth Price Analysis by User](screenshots/in-depth_price_analysis.png)
 
+
 ![Image of In-Depth Price Analysis by Weekday](screenshots/prices_by_weekday.png)
+
+
+![Image of Purchase Prices over Time](screenshots/purchase_price_ot.png)
+
+
+![Image of Maximum Profit by Week](screenshots/profit_by_week.png)
 
 ## Special Thanks
 
