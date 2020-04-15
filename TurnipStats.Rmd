@@ -153,6 +153,8 @@ min_price$Week <- min_price$Week+1
 profit <- merge(min_price, max_price, by.x = "Week", by.y="Date")
 profit$Price <- profit$Price.y - profit$Price.x
 profit$Week <- factor(profit$Week)
+profit$Percent <- (profit$Price / profit$Price.x) * 100
 
-ggplot(profit, aes(Week, Price)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(y="Profit per Turnip")
+ggplot(profit, aes(Week, Price, group=1)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(y="Profit per Turnip in Bells")
+ggplot(profit, aes(Week, Percent, group=1)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(y="Profit per Turnip in %")
 ```
