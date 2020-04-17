@@ -68,7 +68,7 @@ while (i<6) {
 	i = i+1
 }
 ```
-# {.tabset .tabset-pills}
+# {.tabset .tabset-dropdown}
 
 ## Prices of the Week
 
