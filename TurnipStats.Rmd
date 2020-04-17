@@ -51,6 +51,22 @@ data3 <- merge(data3, expanding, all=T)
 
 data4$Date <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")[as.POSIXlt(data4$Date)$wday + 1]
 data4$Date <- factor(data4$Date, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
+
+face_vec_time = vector()
+face_vec_date = vector()
+i = 1
+while (i<8-min(as.POSIXlt(data$Date))$wday) {
+	face_vec_date <- c(face_vec_date, 'plain')
+	face_vec_time <- c(face_vec_time, c('plain', 'plain'))
+	i = i+1
+}
+face_vec_date <- c(face_vec_date, 'bold')
+face_vec_time <- c(face_vec_time, c('bold', 'bold'))
+while (i<6) {
+	face_vec_date <- c(face_vec_date, 'plain')
+	face_vec_time <- c(face_vec_time, c('plain', 'plain'))
+	i = i+1
+}
 ```
 # {.tabset .tabset-pills}
 
@@ -67,27 +83,32 @@ date_to_print <- paste0(c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"
 ggplot(data3,aes(Date, Price, group=interaction(Time,User))) + geom_bar(position="dodge2", stat="identity", aes(colour=Time, fill=User)) + coord_cartesian(ylim=c(min(data3[,"Price"], na.rm=T)-10,max(data3[,"Price"])+10)) + scale_colour_manual(values=c("#ffbc05","#0f0091")) + theme(legend.position="bottom") 
 ```
 
+#### Bold labels are Mondays.
 
 ## Prices over Time
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10}
-ggplot(data2,aes(Time, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User)) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data2$User)) + stat_summary(geom = "point", fun = "mean", col = "red", size = 2, fill = "red", mapping=aes(group=Time)) + stat_summary(aes(group=1), geom = "line", fun = "mean", col = "red", size = 2)
+ggplot(data2,aes(Time, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User)) + theme(axis.text.x = element_text(angle = 90, hjust = 1, face=face_vec_time)) + scale_shape_manual(values=1:nlevels(data2$User)) + stat_summary(geom = "point", fun = "mean", col = "red", size = 2, fill = "red", mapping=aes(group=Time)) + stat_summary(aes(group=1), geom = "line", fun = "mean", col = "red", size = 2)
 ```
 
 #### The strong red line displays the mean value.
+
+#### Bold labels are Mondays.
 
 ## Prices by Time of Day
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10}
-ggplot(data,aes(Date, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User))+facet_grid(.~Time) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data$User)) + stat_summary(geom = "point", fun = "mean", col = "red", size = 2, fill = "red", mapping=aes(group=Date)) + stat_summary(aes(group=1), geom = "line", fun = "mean", col = "red", size = 2)
+ggplot(data,aes(Date, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User))+facet_grid(.~Time) + theme(axis.text.x = element_text(angle = 90, hjust = 1, face=face_vec_date)) + scale_shape_manual(values=1:nlevels(data$User)) + stat_summary(geom = "point", fun = "mean", col = "red", size = 2, fill = "red", mapping=aes(group=Date)) + stat_summary(aes(group=1), geom = "line", fun = "mean", col = "red", size = 2)
 ```
 
 #### The strong red line displays the mean value.
 
+#### Bold labels are Mondays.
+
 ## Prices by User
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10, fig.height= 10}
-ggplot(data2,aes(Time, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User))+facet_wrap(.~User) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_shape_manual(values=1:nlevels(data2$User)) + guides(colour="none", shape="none")
+ggplot(data2,aes(Time, Price, group=User)) + geom_point(aes(shape=User))+geom_line(aes(colour=User))+facet_wrap(.~User) + theme(axis.text.x = element_text(angle = 90, hjust = 1, face=face_vec_time)) + scale_shape_manual(values=1:nlevels(data2$User)) + guides(colour="none", shape="none")
 ```
 
 
