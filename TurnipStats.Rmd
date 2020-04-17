@@ -5,11 +5,16 @@ output: html_document
 
 ```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(RMySQL)
+library(ggplot2)
+library(tidyr)
+library(knitr)
+library(reshape2)
 ```
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-library(RMySQL)
 mydb = dbConnect(MySQL(), user="user", password="password", dbname="dbName", host="127.0.0.1")
 rs = dbSendQuery(mydb, "SELECT * FROM SaleStats")
 data = fetch(rs, n=-1)
@@ -17,9 +22,6 @@ data$User <- factor(data$User)
 rs = dbSendQuery(mydb, "SELECT * FROM PurchaseStats")
 purchase_data = fetch(rs, n=-1) 
 purchase_data$User <- factor(purchase_data$User, levels=levels(data$User))
-
-library(ggplot2)
-library(tidyr)
 
 data$Time <- as.character(data$Time)
 data$Time[data$Time=="0"] <- "AM"
@@ -52,20 +54,19 @@ data3 <- merge(data3, expanding, all=T)
 data4$Date <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")[as.POSIXlt(data4$Date)$wday + 1]
 data4$Date <- factor(data4$Date, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
 
-face_vec_time = vector()
-face_vec_date = vector()
-i = 1
-while (i<8-min(as.POSIXlt(data$Date))$wday) {
-	face_vec_date <- c(face_vec_date, 'plain')
-	face_vec_time <- c(face_vec_time, c('plain', 'plain'))
-	i = i+1
-}
+dayno <- min(as.POSIXlt(data$Date))$wday
+if (7-dayno < 6) {
+face_vec_time = rep(c('plain','plain'),7-dayno)
+face_vec_date = rep('plain', 7-dayno)
+} 
 face_vec_date <- c(face_vec_date, 'bold')
 face_vec_time <- c(face_vec_time, c('bold', 'bold'))
-while (i<6) {
-	face_vec_date <- c(face_vec_date, 'plain')
-	face_vec_time <- c(face_vec_time, c('plain', 'plain'))
-	i = i+1
+if (7-dayno < 6) {
+	face_vec_date <- c(face_vec_date, rep('plain', dayno-2))
+	face_vec_time <- c(face_vec_time, rep(c('plain', 'plain'), dayno-2))
+} else {
+	face_vec_date <- c(face_vec_date, rep('plain', 5))
+	face_vec_time <- c(face_vec_time, rep(c('plain', 'plain'), 5))
 }
 ```
 # {.tabset .tabset-dropdown}
@@ -124,7 +125,6 @@ The graph displays the following:
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width="30%"}
-library(knitr)
 include_graphics("box-plot.png")
 ```
 
@@ -146,7 +146,6 @@ The graph displays the following:
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width="30%"}
-library(knitr)
 include_graphics("box-plot.png")
 ```
 
@@ -164,7 +163,6 @@ ggplot(purchase_data, aes(factor(Week), Price, group=User)) + geom_point(aes(sha
 
 ## Highest Possible Profit by Week
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10}
-library(reshape2)
 
 max_price <- data.frame(data)
 max_price$Date <- strftime(max_price$Date, format="%V")
