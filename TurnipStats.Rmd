@@ -163,8 +163,9 @@ ggplot(purchase_data, aes(factor(Week), Price, group=User)) + geom_point(aes(sha
 ```
 
 ## Highest Possible Profit by Week
-
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width= 10}
+library(reshape2)
+
 max_price <- data.frame(data)
 max_price$Date <- strftime(max_price$Date, format="%V")
 max_price <- aggregate(Price ~ Date, data=max_price, max)
@@ -172,10 +173,10 @@ max_price <- aggregate(Price ~ Date, data=max_price, max)
 min_price <- aggregate(Price ~ Week, data=purchase_data, min)
 min_price$Week <- min_price$Week+1
 profit <- merge(min_price, max_price, by.x = "Week", by.y="Date")
-profit$Price <- profit$Price.y - profit$Price.x
+profit$Bells <- profit$Price.y - profit$Price.x
 profit$Week <- factor(profit$Week)
-profit$Percent <- (profit$Price / profit$Price.x) * 100
+profit$Percent <- (profit$Bells / profit$Price.x) * 100
 
-ggplot(profit, aes(Week, Price, group=1)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(y="Profit per Turnip in Bells")
-ggplot(profit, aes(Week, Percent, group=1)) + geom_point() + geom_line() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(y="Profit per Turnip in %")
+profit <- melt(profit, id.vars="Week", measure.vars=c("Bells", "Percent"), value.name="Price", variable.name="Unit")
+ggplot(profit, aes(Week, Price, group=Unit)) + geom_point(aes(colour=Unit)) + geom_line(aes(colour=Unit)) + theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + labs(y="Profit per Turnip")
 ```
